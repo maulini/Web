@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:of="http://omnifaces.org/functions"
+      xmlns:pf="http://ocpsoft.com/prettyfaces">
+    <h:head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Nom du site</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+        <link href="css/stylesbis.css" rel="stylesheet" />
+        <link href="css/personnalStyle.css" rel="stylesheet" />
+    </h:head>
+    <h:body>
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                <pf:link styleClass="navbar-brand" mappingId="home">Nom du site</pf:link>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><pf:link styleClass="nav-link active" mappingId="home">Home</pf:link></li>
+                        <li class="nav-item"><pf:link styleClass="nav-link" mappingId="p1">Première page</pf:link></li>
+                        <li class="nav-item"><pf:link styleClass="nav-link" mappingId="p2">Deuxième page</pf:link></li>
+                        <li class="nav-item"><pf:link styleClass="nav-link" mappingId="p3">Troisième page</pf:link></li>
+                    </ul>
+                    <form class="d-flex">
+                        <button class="btn btn-outline-dark" type="submit">
+                            Ajouter un établissement
+                        </button>
+                        <button class="btn btn-outline-dark" type="submit">
+                            <i class="bi bi-person"></i>
+                            Mon Compte
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-12">
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="background">
+                            <p>Vous avez déjà utilisé NOM DU SITE ?</p>
+                            <h:form id="login">
+                                <p:growl id="loginGrow" showDetail="false"/>
+                                <p:panel styleClass="loggin active" id="loginDiv">
+                                    <span class="ui-input-icon-right">
+                                        <i class="pi pi-envelope" />
+                                        <p:inputText id="email" value="#{loginBean.mail}" placeholder="Email">
+                                            <p:keyFilter regEx="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" />
+                                        </p:inputText>
+                                    </span>
+                                    <p:password id="toggle" value="#{loginBean.password}" toggleMask="true" redisplay="true" placeholder="Mot de passe" />
+                                </p:panel>
+                                <p:commandButton value="Connection" id="btnCnx" action="#{loginBean.connexion}" />
+                            </h:form>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-12">
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div>
+                            <p class="or">Ou</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-4 col-md-12">
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="background">
+                            <h:form id="singin">
+                                <p:growl id="singinGrowl" showDetail="false"/>
+                                <p>Nouveau sur NOM DU SITE ?</p>
+                                <p:panel styleClass="sing-up" id="singinDiv">
+                                    <p:selectOneRadio required="true" id="console" value="#{loginBean.type}" unselectable="false">
+                                        <f:selectItem itemLabel="Client" itemValue="Client"/>
+                                        <f:selectItem itemLabel="Entreprise" itemValue="Entreprise"/>
+                                    </p:selectOneRadio>
+                                    <span class="ui-float-label">
+                                       <p:inputMask id="phone" value="#{loginBean.phone}" mask="(+99) 9-99-99-99-99" validateMask="true"/>
+                                    </span>
+                                    <span class="ui-input-icon-right">
+                                        <i class="pi pi-envelope" />
+                                        <p:inputText id="email2" value="#{loginBean.mailSing}" placeholder="Email">
+                                            <p:keyFilter regEx="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" />
+                                        </p:inputText>
+                                    </span>
+                                    <p:password id="toggle2" placeholder="Mot de passe" value="#{loginBean.passwordSing}" toggleMask="true" redisplay="true" />
+                                </p:panel>
+                                <p:commandButton value="S'inscrire" action="#{loginBean.inscription}" id="cbIns" />
+                            </h:form>
+                            <h:form id="enterprise">
+                                <p:panel styleClass="enterprise" id="enterpriseDiv">
+                                    <p>Terminer mon inscription</p>
+                                    <p:inputText id="enterpriseName" value="#{loginBean.enterpriseName}" placeholder="Nom de l'établissement" />
+                                    <p:autoComplete id="enterpriseType" value="#{loginBean.enterpriseType}" var="type" itemLabel="#{type.name}" itemValue="#{type}"
+                                                    converter="#{enterpriseTypeConverter}" completeMethod="#{loginBean.enterpriseCompletType}" />
+                                    <p:autoComplete id="enterpriseAddress" value="#{loginBean.enterpriseAddress}" completeMethod="#{loginBean.enterpriseCompletAddress}" />
+                                </p:panel>
+                            </h:form>
+                            <h:form id="client">
+                                <p:panel styleClass="client" id="clientDiv">
+                                    <p>Terminer mon inscription</p>
+                                    <p:inputText id="clientName" value="#{loginBean.clientName}" placeholder="Votre nom" />
+                                    <p:inputText id="clientLastName" value="#{loginBean.clientLastName}" placeholder="Votre prénom" />
+                                    <p:button id="deconexion" value="Se déconnecter" />
+                                </p:panel>
+                            </h:form>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                    </div>
+                </div>
+            </div>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/scripts.js"></script>
+        <script src="vicopo-jquery.min.js"></script>
+    </h:body>
+</html>

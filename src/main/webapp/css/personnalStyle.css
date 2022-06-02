@@ -1,0 +1,47 @@
+body
+{
+    background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../assets/img/bg-masthead.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover
+}
+.p
+{
+    color: black;
+}
+.or
+{
+    color: white;
+}
+.background
+{
+    background: white;
+    border-radius: 2px;
+    box-shadow: 1px 1px black;
+    height: 1px;
+}
+.loggin
+{
+    padding: 4px;
+    display: none;
+}
+.sing-up
+{
+    padding: 4px;
+    display: none;
+}
+.enterprise
+{
+    display: none;
+}
+.client
+{
+    display: none;
+}
+.active
+{
+    height: 500px;
+    display: contents;
+}
+
