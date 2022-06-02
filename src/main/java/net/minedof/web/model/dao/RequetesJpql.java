@@ -36,6 +36,8 @@ public final class RequetesJpql {
 	public static final String STATISTIQUE_PRODUIT_CONSOMER = "SELECT p, COUNT(p) * AVG(l.quantite) FROM Consommation c LEFT JOIN c.lstLigneDeConsommation l LEFT JOIN l.produit p WHERE FUNC('MONTH', CURRENT_DATE) = FUNC('MONTH', c.dateConsommation) AND FUNC('YEAR', CURRENT_DATE) = FUNC('YEAR', c.dateConsommation) GROUP BY p.nom, FUNC('MONTH', c.dateConsommation), FUNC('YEAR', c.dateConsommation) ORDER BY COUNT(p) * AVG(l.quantite) DESC";
 	
 	public static final String CLIENT_SOLDE_ALERT = "SELECT c FROM Client c WHERE c.solde <= :param AND c.actif = true";
+
+	public static final String ACCOUNT_ALREADY_EXIST = "SELECT a FROM Account a WHERE a.mail = :param";
 	
 	private RequetesJpql() {
 	}

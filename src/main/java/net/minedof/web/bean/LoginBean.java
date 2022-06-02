@@ -13,6 +13,8 @@ import net.minedof.web.model.entity.Account;
 import net.minedof.web.model.entity.Client;
 import net.minedof.web.model.entity.Enterprise;
 import org.primefaces.PrimeFaces;
+import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.component.outputlabel.OutputLabel;
 import org.primefaces.component.panel.Panel;
 
 import javax.annotation.PostConstruct;
@@ -21,6 +23,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionListener;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.transaction.Transactional;
@@ -52,6 +55,8 @@ public class LoginBean implements Serializable {
     private String clientName;
     private String clientLastName;
 
+    private boolean alreadyConnected;
+
     @Inject
     private AccountDao accountDao;
     @Inject
@@ -72,7 +77,7 @@ public class LoginBean implements Serializable {
         UIComponent insBtn = view.findComponent("singin:cbIns");
         switchPanel(view, cnxBtn, insBtn, true, EType.LOGIN, EType.SINGIN);
         if (!cnxBtn.getAttributes().get("value").equals(EType.LOGIN.str1) && mail != null && !mail.trim().isEmpty() && password != null && !password.trim().isEmpty()) {
-            accountDao.verifyAccount(mail, password);
+            alreadyConnected = accountDao.verifyAccount(mail, password);
         }
     }
 
@@ -83,35 +88,84 @@ public class LoginBean implements Serializable {
         UIComponent insBtn = view.findComponent("singin:cbIns");
         switchPanel(view, insBtn, cnxBtn, false, EType.SINGIN, EType.LOGIN);
         if (!insBtn.getAttributes().get("value").equals(EType.SINGIN.str1) && mailSing != null && !mailSing.trim().isEmpty() && passwordSing != null && !passwordSing.trim().isEmpty() && phone != null && !phone.trim().isEmpty()) {
-            if (type.equals("Client")) {
-                Account account = new Account(mailSing, passwordSing);
-                accountDao.create(account);
-                Address address = new Address();
-                Address addressE = new Address();
-                addressDao.create(address);
-                addressDao.create(addressE);
-                Enterprise enterprise = new Enterprise();
-                enterprise.setAddress(addressE);
-                enterpriseDao.create(enterprise);
-                Client client = new Client();
-                client.setPhoneNumber(getPhone());
-                client.setAccount(account);
-                client.setAddress(address);
-                client.setFavoriteEnterprise(enterprise);
-                clientDao.create(client);
-                FacesContext.getCurrentInstance().
-                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Le compte client à bien été crée !", null));
+            if (!emailAlreadyExist()) {
+                if (type.equals("Client")) {
+                    Account account = new Account(mailSing, passwordSing);
+                    accountDao.create(account);
+                    Address address = new Address();
+                    Address addressE = new Address();
+                    addressDao.create(address);
+                    addressDao.create(addressE);
+                    Enterprise enterprise = new Enterprise();
+                    enterprise.setAddress(addressE);
+                    enterpriseDao.create(enterprise);
+                    Client client = new Client();
+                    client.setPhoneNumber(getPhone());
+                    client.setAccount(account);
+                    client.setAddress(address);
+                    client.setFavoriteEnterprise(enterprise);
+                    clientDao.create(client);
+                    showClientPanel(view);
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Le compte client à bien été crée !", null));
+                } else {
+                    Account account = new Account(mailSing, passwordSing);
+                    accountDao.create(account);
+                    Enterprise enterprise = new Enterprise();
+                    enterprise.setAccount(account);
+                    enterpriseDao.create(enterprise);
+                    showEnterprisePanel(view);
+                    FacesContext.getCurrentInstance().
+                            addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Le compte entreprise à bien été crée !", null));
+                }
+                PrimeFaces.current().ajax().update(view.findComponent("singin:singinGrowl"));
             } else {
-                Account account = new Account(mailSing, passwordSing);
-                accountDao.create(account);
-                Enterprise enterprise = new Enterprise();
-                enterprise.setAccount(account);
-                enterpriseDao.create(enterprise);
                 FacesContext.getCurrentInstance().
-                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Le compte entreprise à bien été crée !", null));
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Cette adresse est déjà utilisé", String.format("Veuillez vous connecter avec l'adresse %s s'il vous plait", mailSing)));
+                PrimeFaces.current().ajax().update(view.findComponent("singin:singinGrowlDetails"));
             }
-            PrimeFaces.current().ajax().update(view.findComponent("singin:singinGrowl"));
         }
+    }
+
+    private boolean emailAlreadyExist() {
+        return accountDao.alreadyExist(mailSing);
+    }
+
+    private void showEnterprisePanel(UIViewRoot view) {
+        hidePrimaryPanel(view);
+        Panel enterprise = ((Panel)view.findComponent("enterprise:enterpriseDiv"));
+        enterprise.setStyleClass(enterprise.getStyleClass() + " active");
+        PrimeFaces.current().ajax().update(enterprise);
+    }
+
+    private void hidePrimaryPanel(UIViewRoot view) {
+        Panel singinPanel = ((Panel)view.findComponent("singin:singinDiv"));
+        Panel loginPanel = ((Panel)view.findComponent("login:loginDiv"));
+        Panel backgroundPanel = ((Panel)view.findComponent("login:backgroundPanel"));
+        CommandButton cnxBtn = (CommandButton) view.findComponent("login:btnCnx");
+        CommandButton insBtn = (CommandButton) view.findComponent("singin:cbIns");
+        OutputLabel alreadyUseLabel = (OutputLabel) view.findComponent("login:alreadyUseLabel");
+        OutputLabel newOnWebSitePanel = (OutputLabel) view.findComponent("singin:newOnWebSitePanel");
+        OutputLabel label = (OutputLabel) view.findComponent("or:orLbl");
+        if (singinPanel.getStyleClass().contains("active")) {
+            singinPanel.setStyleClass(singinPanel.getStyleClass().replaceAll(" active", ""));
+        } else if (loginPanel.getStyleClass().contains("active")) {
+            loginPanel.setStyleClass(singinPanel.getStyleClass().replaceAll(" active", ""));
+        }
+        cnxBtn.setStyle("display: none;");
+        insBtn.setStyle("display: none;");
+        label.setStyle("display: none;");
+        backgroundPanel.setStyle("display: none;");
+        alreadyUseLabel.setStyle("display: none;");
+        newOnWebSitePanel.setStyle("display: none;");
+        PrimeFaces.current().ajax().update(singinPanel, loginPanel, cnxBtn, insBtn);
+    }
+
+    private void showClientPanel(UIViewRoot view) {
+        hidePrimaryPanel(view);
+        Panel client = ((Panel)view.findComponent("client:clientDiv"));
+        client.setStyleClass(client.getStyleClass() + " active");
+        PrimeFaces.current().ajax().update(client);
     }
 
     private void switchPanel(UIViewRoot view, UIComponent firstBtn, UIComponent secondButton, boolean singHide, EType fistETypeButton, EType secondETypeButton) {
@@ -141,6 +195,14 @@ public class LoginBean implements Serializable {
 
     public List<EEnterpriseType> enterpriseCompletType() {
         return new ArrayList<>();
+    }
+
+    public void getValidate() {
+        if (type.equals("Client")) {
+
+        }else {
+
+        }
     }
 
     enum EType {
