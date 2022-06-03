@@ -8,10 +8,6 @@ import java.io.Serializable;
 
 @Dependent
 public class AccountDao extends AbstractDaoGenerique<Account> implements Serializable {
-    /**
-     * Paramètre de pour les seuils.
-     */
-    private static String parameter = "param";
 
     public boolean verifyAccount(String mail, String password) {
         return false;
@@ -22,4 +18,5 @@ public class AccountDao extends AbstractDaoGenerique<Account> implements Seriali
         tq.setParameter(parameter, mailSing);
         return !tq.getResultList().isEmpty();
     }
+
 }

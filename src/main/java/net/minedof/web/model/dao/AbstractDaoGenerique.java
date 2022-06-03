@@ -18,7 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public abstract class AbstractDaoGenerique<T> {
-
+	/**
+	 * Paramètre de pour les seuils.
+	 */
+	protected static String parameter = "param";
 	//Contexte de persitance
 	@PersistenceContext
 	private EntityManager em;

@@ -17,12 +17,11 @@
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
         <link href="css/stylesbis.css" rel="stylesheet" />
-        <link href="css/personnalStyle.css" rel="stylesheet" />
     </h:head>
     <h:body>
+        <h:outputStylesheet library="css" name="personnalStyle.css" />
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
@@ -53,10 +52,10 @@
                 </div>
                 <div class="col-lg-4 col-md-6">
                     <h:form id="login">
-                        <p:panel class="background" id="backgroundPanel">
+                        <p:card styleClass="background" id="backgroundPanel">
                             <p:outputLabel styleClass="p" id="alreadyUseLabel">Vous avez déjà utilisé NOM DU SITE ?</p:outputLabel>
                             <p:growl id="loginGrow" showDetail="false"/>
-                            <p:panel styleClass="loggin active" id="loginDiv">
+                            <p:card styleClass="loggin active removeBorder" id="loginDiv">
                                 <span class="ui-input-icon-right">
                                     <i class="pi pi-envelope" />
                                     <p:inputText id="email" value="#{loginBean.mail}" placeholder="Email">
@@ -64,31 +63,25 @@
                                     </p:inputText>
                                 </span>
                                 <p:password id="toggle" value="#{loginBean.password}" toggleMask="true" redisplay="true" placeholder="Mot de passe" />
-                            </p:panel>
-                            <p:commandButton value="Connection" id="btnCnx" action="#{loginBean.connexion}" />
-                        </p:panel>
+                            </p:card>
+                            <p:commandButton value="Connection" id="btnCnx" action="#{loginBean.connexion}" styleClass="full"/>
+                        </p:card>
                     </h:form>
                 </div>
                 <div class="col-lg-4 col-md-6">
                 </div>
             </div>
-        </div>
-        <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-md-12">
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div>
-                        <h:form id="or">
-                            <p:outputLabel id="orLbl" class="or">Ou</p:outputLabel>
-                        </h:form>
-                    </div>
+                    <h:form id="or">
+                        <p:outputLabel id="orLbl" styleClass="or">Ou</p:outputLabel>
+                    </h:form>
                 </div>
                 <div class="col-lg-4 col-md-6">
                 </div>
             </div>
-        </div>
-        <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-md-12">
                 </div>
@@ -98,7 +91,7 @@
                             <p:growl id="singinGrowl" showDetail="false"/>
                             <p:growl id="singinGrowlDetails" showDetail="true"/>
                             <p:outputLabel styleClass="p" id="newOnWebSitePanel">Nouveau sur NOM DU SITE ?</p:outputLabel>
-                            <p:panel styleClass="sing-up" id="singinDiv">
+                            <p:card styleClass="sing-up" id="singinDiv">
                                 <p:selectOneRadio required="true" id="console" value="#{loginBean.type}" unselectable="false">
                                     <f:selectItem itemLabel="Client" itemValue="Client"/>
                                     <f:selectItem itemLabel="Entreprise" itemValue="Entreprise"/>
@@ -113,27 +106,35 @@
                                     </p:inputText>
                                 </span>
                                 <p:password id="toggle2" placeholder="Mot de passe" value="#{loginBean.passwordSing}" toggleMask="true" redisplay="true" />
-                            </p:panel>
-                            <p:commandButton value="S'inscrire" action="#{loginBean.inscription}" id="cbIns" />
+                            </p:card>
+                            <p:commandButton value="S'inscrire" styleClass="full" action="#{loginBean.inscription}" id="cbIns" />
                         </h:form>
                         <h:form id="enterprise">
-                            <p:panel styleClass="enterprise" id="enterpriseDiv">
-                                <p>Terminer mon inscription</p>
+                            <p:card styleClass="enterprise" id="enterpriseDiv">
+                                <f:facet name="title">
+                                    Terminer mon inscription
+                                </f:facet>
                                 <p:inputText id="enterpriseName" value="#{loginBean.enterpriseName}" placeholder="Nom de l'établissement" />
-                                <p:autoComplete id="enterpriseType" value="#{loginBean.enterpriseType}" var="type" itemLabel="#{type.name}" itemValue="#{type}"
+                                <p:autoComplete id="enterpriseType" value="#{loginBean.enterpriseType}" placeholder="Type d'entreprise" var="type" itemLabel="#{type.name}" itemValue="#{type}"
                                                 converter="#{enterpriseTypeConverter}" completeMethod="#{loginBean.enterpriseCompletType}" />
-                                <p:autoComplete id="enterpriseAddress" value="#{loginBean.enterpriseAddress}" completeMethod="#{loginBean.enterpriseCompletAddress}" />
-                                <p:commandButton value="Valider" actionListener="#{loginBean.validate}"/>
-                            </p:panel>
+                                <p:autoComplete id="enterpriseAddress" placeholder="Où se situe t-elle ?" value="#{loginBean.enterpriseAddress}" completeMethod="#{loginBean.enterpriseCompletAddress}" />
+                                <f:facet name="footer">
+                                    <p:commandButton value="Valider" actionListener="#{loginBean.validate}" styleClass="full"/>
+                                </f:facet>
+                            </p:card>
                         </h:form>
                         <h:form id="client">
-                            <p:panel styleClass="client" id="clientDiv">
-                                <p>Terminer mon inscription</p>
+                            <p:card styleClass="client" id="clientDiv">
+                                <f:facet name="title">
+                                    Terminer mon inscription
+                                </f:facet>
                                 <p:inputText id="clientName" value="#{loginBean.clientName}" placeholder="Votre nom" />
                                 <p:inputText id="clientLastName" value="#{loginBean.clientLastName}" placeholder="Votre prénom" />
-                                <p:commandButton value="Valider" actionListener="#{loginBean.validate}"/>
-                                <p:button id="deconexion" value="Se déconnecter" />
-                            </p:panel>
+                                <f:facet name="footer">
+                                    <p:commandButton value="Valider" actionListener="#{loginBean.validate}" styleClass="full"/>
+                                    <p:button id="deconexion" value="Se déconnecter" />
+                                </f:facet>
+                            </p:card>
                         </h:form>
                     </div>
                 </div>

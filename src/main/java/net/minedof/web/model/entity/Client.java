@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import net.minedof.web.model.Address;
+import net.minedof.web.model.dao.RequetesJpql;
 
 import javax.enterprise.context.Dependent;
 import javax.persistence.*;
@@ -20,6 +21,7 @@ import java.io.Serializable;
 @Entity
 @Table(name="CLIENT")
 //@NamedQuery(name="client.triAlphabetique", query=RequetesJpql.CLIENT_ALPHABETIQUE)
+@NamedQuery(name="client.findClient", query= RequetesJpql.FIND_CLIENT_BY_EMAIL)
 public class Client extends AbstractEntity implements Serializable {
 
     /**

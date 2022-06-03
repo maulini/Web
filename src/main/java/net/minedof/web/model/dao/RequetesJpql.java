@@ -38,7 +38,8 @@ public final class RequetesJpql {
 	public static final String CLIENT_SOLDE_ALERT = "SELECT c FROM Client c WHERE c.solde <= :param AND c.actif = true";
 
 	public static final String ACCOUNT_ALREADY_EXIST = "SELECT a FROM Account a WHERE a.mail = :param";
-	
+	public static final String FIND_CLIENT_BY_EMAIL = "SELECT c FROM Client c WHERE c.account = (SELECT a.id FROM Account a WHERE a.mail like :param)";
+
 	private RequetesJpql() {
 	}
 	

@@ -13,34 +13,65 @@ body
 .or
 {
     color: white;
+    margin: auto;
 }
 .background
 {
     background: white;
-    border-radius: 2px;
+    border-radius: 4px;
     box-shadow: 1px 1px black;
-    height: 1px;
 }
 .loggin
 {
+    transition: 0.5s;
     padding: 4px;
     display: none;
 }
 .sing-up
 {
+    border: none;
+    transition: 0.5s;
     padding: 4px;
     display: none;
 }
 .enterprise
 {
+    transition: 0.5s;
     display: none;
 }
 .client
 {
+    transition: 0.5s;
     display: none;
 }
 .active
 {
+    transition: 0.5s;
     display: contents;
 }
-
+.ui-button.full
+{
+    transition: 0.5s;
+    width: 90%;
+    background: black;
+    color: white;
+    border-color: black;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+.ui-button.full:hover
+{
+    transition: 0.5s;
+    background: black;
+    opacity: 75%;
+    border: none;
+    height: auto;
+}
+.ui-button.full::selection
+{
+    border: none;
+}
+.hidden
+{
+    display: none;
+}

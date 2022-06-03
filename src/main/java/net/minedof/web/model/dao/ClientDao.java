@@ -1,10 +1,12 @@
 package net.minedof.web.model.dao;
 
 import net.minedof.web.model.Address;
+import net.minedof.web.model.entity.Account;
 import net.minedof.web.model.entity.Client;
 import net.minedof.web.model.entity.Enterprise;
 
 import javax.enterprise.context.Dependent;
+import javax.persistence.TypedQuery;
 import java.io.Serializable;
 
 @Dependent
@@ -34,4 +36,21 @@ public class ClientDao extends AbstractDaoGenerique<Client> implements Serializa
         update(client);
     }
 
+    public Client getClient(String mailSing) {
+        TypedQuery<Client> tq = getEntityManager().createNamedQuery("client.findClient", Client.class);
+        tq.setParameter(parameter, mailSing);
+        return tq.getSingleResult();
+    }
+
+    public void updateName(String name, String mailSing) {
+
+    }
+
+    public void updateLastName(String lastName, String mailSing) {
+
+    }
+
+    public void updateLastNameAndName(String lastName, String name, String mailSing) {
+
+    }
 }

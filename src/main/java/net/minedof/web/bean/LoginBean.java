@@ -13,6 +13,7 @@ import net.minedof.web.model.entity.Account;
 import net.minedof.web.model.entity.Client;
 import net.minedof.web.model.entity.Enterprise;
 import org.primefaces.PrimeFaces;
+import org.primefaces.component.card.Card;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.outputlabel.OutputLabel;
 import org.primefaces.component.panel.Panel;
@@ -133,15 +134,15 @@ public class LoginBean implements Serializable {
 
     private void showEnterprisePanel(UIViewRoot view) {
         hidePrimaryPanel(view);
-        Panel enterprise = ((Panel)view.findComponent("enterprise:enterpriseDiv"));
+        Card enterprise = ((Card)view.findComponent("enterprise:enterpriseDiv"));
         enterprise.setStyleClass(enterprise.getStyleClass() + " active");
         PrimeFaces.current().ajax().update(enterprise);
     }
 
     private void hidePrimaryPanel(UIViewRoot view) {
-        Panel singinPanel = ((Panel)view.findComponent("singin:singinDiv"));
-        Panel loginPanel = ((Panel)view.findComponent("login:loginDiv"));
-        Panel backgroundPanel = ((Panel)view.findComponent("login:backgroundPanel"));
+        Card singinPanel = ((Card)view.findComponent("singin:singinDiv"));
+        Card loginPanel = ((Card)view.findComponent("login:loginDiv"));
+        Card backgroundPanel = ((Card)view.findComponent("login:backgroundPanel"));
         CommandButton cnxBtn = (CommandButton) view.findComponent("login:btnCnx");
         CommandButton insBtn = (CommandButton) view.findComponent("singin:cbIns");
         OutputLabel alreadyUseLabel = (OutputLabel) view.findComponent("login:alreadyUseLabel");
@@ -158,19 +159,19 @@ public class LoginBean implements Serializable {
         backgroundPanel.setStyle("display: none;");
         alreadyUseLabel.setStyle("display: none;");
         newOnWebSitePanel.setStyle("display: none;");
-        PrimeFaces.current().ajax().update(singinPanel, loginPanel, cnxBtn, insBtn);
+        PrimeFaces.current().ajax().update(singinPanel, loginPanel, cnxBtn, insBtn, backgroundPanel, label, alreadyUseLabel, newOnWebSitePanel);
     }
 
     private void showClientPanel(UIViewRoot view) {
         hidePrimaryPanel(view);
-        Panel client = ((Panel)view.findComponent("client:clientDiv"));
+        Card client = ((Card)view.findComponent("client:clientDiv"));
         client.setStyleClass(client.getStyleClass() + " active");
         PrimeFaces.current().ajax().update(client);
     }
 
     private void switchPanel(UIViewRoot view, UIComponent firstBtn, UIComponent secondButton, boolean singHide, EType fistETypeButton, EType secondETypeButton) {
-        Panel singinPanel = ((Panel)view.findComponent("singin:singinDiv"));
-        Panel loginPanel = ((Panel)view.findComponent("login:loginDiv"));
+        Card singinPanel = ((Card)view.findComponent("singin:singinDiv"));
+        Card loginPanel = ((Card)view.findComponent("login:loginDiv"));
         if (firstBtn.getAttributes().get("value").equals(fistETypeButton.str1)) {
             if (singHide) {
                 singinPanel.setStyleClass(singinPanel.getStyleClass().replaceAll(" active", ""));
@@ -197,9 +198,16 @@ public class LoginBean implements Serializable {
         return new ArrayList<>();
     }
 
-    public void getValidate() {
+    public void validate() {
         if (type.equals("Client")) {
-
+            if (clientName != null && !clientName.trim().isEmpty() && clientLastName != null && !clientLastName.trim().isEmpty()) {
+                Client client = clientDao.getClient(mailSing);
+                if (client != null) {
+                    client.setFirstName(clientName);
+                    client.setLastName(clientLastName);
+                    clientDao.update(client);
+                }
+            }
         }else {
 
         }
