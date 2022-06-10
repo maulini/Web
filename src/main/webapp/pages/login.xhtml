@@ -54,17 +54,21 @@
                     <h:form id="login">
                         <p:card styleClass="background" id="backgroundPanel">
                             <p:outputLabel styleClass="p" id="alreadyUseLabel">Vous avez déjà utilisé NOM DU SITE ?</p:outputLabel>
-                            <p:growl id="loginGrow" showDetail="false"/>
                             <p:card styleClass="loggin active removeBorder" id="loginDiv">
+                            	<p:messages id="loginGrow" showDetail="true" closable="true" />
                                 <span class="ui-input-icon-right">
                                     <i class="pi pi-envelope" />
-                                    <p:inputText id="email" value="#{loginBean.mail}" placeholder="Email">
+                                    <p:inputText id="email" validator="emailValidator" value="#{loginBean.mail}" placeholder="Email">
                                         <p:keyFilter regEx="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" />
                                     </p:inputText>
                                 </span>
+                                <p:message for="email"/>
                                 <p:password id="toggle" value="#{loginBean.password}" toggleMask="true" redisplay="true" placeholder="Mot de passe" />
+                                <p:message for="toggle"/>
                             </p:card>
-                            <p:commandButton value="Connection" id="btnCnx" action="#{loginBean.connexion}" styleClass="full"/>
+                            <p:commandButton value="Connection" id="btnCnx" update="@form" styleClass="full">
+                            	<p:ajax event="click" listener="#{loginBean.connexion}" />
+                            </p:commandButton>
                         </p:card>
                     </h:form>
                 </div>
@@ -98,16 +102,21 @@
                                 </p:selectOneRadio>
                                 <span class="ui-float-label">
                                    <p:inputMask id="phone" value="#{loginBean.phone}" mask="(+99) 9-99-99-99-99" validateMask="true"/>
+                                   <p:message for="phone" id="phoneMessage" />
                                 </span>
                                 <span class="ui-input-icon-right">
                                     <i class="pi pi-envelope" />
-                                    <p:inputText id="email2" value="#{loginBean.mailSing}" placeholder="Email">
+                                    <p:inputText id="email2" validator="emailValidator" value="#{loginBean.mailSing}" placeholder="Email">
                                         <p:keyFilter regEx="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" />
                                     </p:inputText>
                                 </span>
-                                <p:password id="toggle2" placeholder="Mot de passe" value="#{loginBean.passwordSing}" toggleMask="true" redisplay="true" />
+                                <p:message for="email2" id="email2Message" />
+                                <p:password id="toggle2" requiredMessage="Le champ mot de passe est obligatoire." placeholder="Mot de passe" value="#{loginBean.passwordSing}" toggleMask="true" redisplay="true" />
+                            	<p:message for="toggle2" id="toggle2Message" />
                             </p:card>
-                            <p:commandButton value="S'inscrire" styleClass="full" action="#{loginBean.inscription}" id="cbIns" />
+                            <p:commandButton value="S'inscrire" update="@form" styleClass="full" id="cbIns">
+                            	<p:ajax event="click" listener="#{loginBean.inscription}"/>
+                            </p:commandButton>
                         </h:form>
                         <h:form id="enterprise">
                             <p:card styleClass="enterprise" id="enterpriseDiv">
@@ -124,12 +133,13 @@
                             </p:card>
                         </h:form>
                         <h:form id="client">
+                        	<p:growl id="clientSaved" showDetail="false"/>
                             <p:card styleClass="client" id="clientDiv">
                                 <f:facet name="title">
                                     Terminer mon inscription
                                 </f:facet>
-                                <p:inputText id="clientName" value="#{loginBean.clientName}" placeholder="Votre nom" />
-                                <p:inputText id="clientLastName" value="#{loginBean.clientLastName}" placeholder="Votre prénom" />
+                                <p:inputText id="clientName" value="#{loginBean.clientLastName}" placeholder="Votre nom" />
+                                <p:inputText id="clientLastName" value="#{loginBean.clientName}" placeholder="Votre prénom" />
                                 <f:facet name="footer">
                                     <p:commandButton value="Valider" actionListener="#{loginBean.validate}" styleClass="full"/>
                                     <p:button id="deconexion" value="Se déconnecter" />

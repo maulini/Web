@@ -20,8 +20,16 @@
         <pattern value="/p3" />
         <view-id value="pages/page3.xhtml" />
     </url-mapping>
-    <url-mapping id="compte">
-        <pattern value="/compte" />
+    <url-mapping id="client">
+        <pattern value="/client" />
+        <view-id value="pages/client/compte.xhtml" />
+    </url-mapping>
+    <url-mapping id="enterprise">
+        <pattern value="/enterprise" />
+        <view-id value="pages/enterprise/compte.xhtml" />
+    </url-mapping>
+    <url-mapping id="login">
+        <pattern value="/login" />
         <view-id value="pages/login.xhtml" />
     </url-mapping>
     <url-mapping id="search">

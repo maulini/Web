@@ -13,6 +13,7 @@ body
 .or
 {
     color: white;
+    display: flex;
     margin: auto;
 }
 .background
@@ -47,7 +48,7 @@ body
 .active
 {
     transition: 0.5s;
-    display: contents;
+    display: flex;
 }
 .ui-button.full
 {

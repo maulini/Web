@@ -5,15 +5,20 @@ package net.minedof.web.model;
  */
 public enum EEnterpriseType {
 
-    BOULANGERIE("Boulangerie"),
-    COIFFEUR("Coiffeur"),
-    BARBIER("Barbier"),
-    RESTAURANT("Restaurant"),
-    ESTHETICIENNE("Esthéticienne");
+	BOULANGERIE("Boulangerie"),
+	COIFFEUR("Coiffeur"),
+	BARBIER("Barbier"),
+	RESTAURANT("Restaurant"),
+	ESTHETICIENNE("Esthéticienne");
 
-    private String name;
-    EEnterpriseType(String name) {
-        this.name = name;
-    }
+	public String name;
+
+	EEnterpriseType(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return this.name;
+	}
 
 }
