@@ -1,17 +1,13 @@
 package net.minedof.web.model.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Version;
+import javax.persistence.*;
 
+import javafx.scene.image.Image;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,31 +32,43 @@ import net.minedof.web.model.dao.RequetesJpql;
 @NamedQuery(name="enterprise.getEnterpriseByMail", query= RequetesJpql.FIND_ENTERPRISE_BY_CLIENT)
 @NamedQuery(name="enterprise.getEnterpriseByCity", query= RequetesJpql.FIND_ENTERPRISE_BY_CITY)
 @NamedQuery(name="enterprise.getEnterpriseNotByCity", query= RequetesJpql.FIND_ENTERPRISE_NOT_BY_CITY)
+@NamedQuery(name="enterprise.getEnterpriseNotByCityAndType", query= RequetesJpql.FIND_ENTERPRISE_NOT_BY_CITY_TYPE)
+@NamedQuery(name="enterprise.getEnterpriseByCityAndType", query= RequetesJpql.FIND_ENTERPRISE_BY_CITY_TYPE)
 public class Enterprise extends AbstractEntity implements Serializable {
 
 	/**
 	 * Nom de l'entreprise.
 	 */
 	String name;
+
 	/**
 	 * Adresse de l'entreprise.
 	 */
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	Address address;
+
 	/**
 	 * Type d'entreprise.
 	 */
-	EEnterpriseType enterpriseType;
-	@OneToOne
+	int enterpriseType;
+
 	/**
 	 * Compte de l'entreprise.
 	 */
+	@OneToOne(cascade = CascadeType.ALL)
 	Account account;
+
 	/**
 	 * Tous les clients ayant pris rendez-vous avec l'entreprise.
 	 */
-	@ManyToMany
+	@OneToMany
 	List<Client> client;
+
+	/**
+	 * Image desciptive du produit
+	 */
+	@OneToMany(cascade = CascadeType.ALL)
+	List<Photo> image;
 
 	/**
 	 * numéro de version.

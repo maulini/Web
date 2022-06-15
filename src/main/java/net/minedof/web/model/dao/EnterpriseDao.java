@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.enterprise.context.Dependent;
+import javax.persistence.Parameter;
 import javax.persistence.TypedQuery;
 
 import net.minedof.web.model.Address;
@@ -21,7 +22,7 @@ public class EnterpriseDao extends AbstractDaoGenerique<Enterprise> implements S
 	 *          Le type d'entreprise à associer au client.
 	 */
 	public void setFavoriteEnterprise(Enterprise enterprise, EEnterpriseType enterpriseType) {
-		enterprise.setEnterpriseType(enterpriseType);
+		enterprise.setEnterpriseType(enterpriseType.getId());
 		this.update(enterprise);
 	}
 
@@ -51,6 +52,22 @@ public class EnterpriseDao extends AbstractDaoGenerique<Enterprise> implements S
 	}
 
 	/**
+	 * Permet de récupérer les entreprises d'une même ville par rapport a leurs type.
+	 * @param cityName
+	 * 			le nom de la ville de l'entreprise.
+	 * @param enterpriseType
+	 * 			le type de l'entreprise.
+	 * @return
+	 * 		{@link List}<{@link Enterprise}> trouvées.
+	 */
+	public List<Enterprise> getEnterpriseByCityAndType(String cityName, EEnterpriseType enterpriseType) {
+		TypedQuery<Enterprise> tq = this.getEntityManager().createNamedQuery("enterprise.getEnterpriseByCityAndType", Enterprise.class);
+		tq.setParameter(parameter, cityName);
+		tq.setParameter("param2", enterpriseType.getId());
+		return tq.getResultList();
+	}
+
+	/**
 	 * Permet de récupérer les entreprises d'une même ville.
 	 * @param cityName
 	 * 			le nom de la ville de l'entreprise.
@@ -60,6 +77,35 @@ public class EnterpriseDao extends AbstractDaoGenerique<Enterprise> implements S
 	public List<Enterprise> getEnterpriseByCity(String cityName) {
 		TypedQuery<Enterprise> tq = this.getEntityManager().createNamedQuery("enterprise.getEnterpriseByCity", Enterprise.class);
 		tq.setParameter(parameter, cityName);
+		return tq.getResultList();
+	}
+
+	/**
+	 * Permet de récupérer les entreprises qui ne sont pas dans la ville.
+	 * @param cityName
+	 * 			le nom de la ville de l'entreprise.
+	 * @return
+	 * 		{@link List}<{@link Enterprise}> trouvées.
+	 */
+	public List<Enterprise> getEnterpriseNotByCity(String cityName) {
+		TypedQuery<Enterprise> tq = this.getEntityManager().createNamedQuery("enterprise.getEnterpriseNotByCity", Enterprise.class);
+		tq.setParameter(parameter, cityName);
+		return tq.getResultList();
+	}
+
+	/**
+	 * Permet de récupérer les entreprises qui ne sont pas dans la ville et par rapport a leurs type.
+	 * @param cityName
+	 * 			le nom de la ville de l'entreprise.
+	 * @param enterpriseType
+	 * 			le type de l'entreprise.
+	 * @return
+	 * 		{@link List}<{@link Enterprise}> trouvées.
+	 */
+	public List<Enterprise> getEnterpriseNotByCityAndType(String cityName, EEnterpriseType enterpriseType) {
+		TypedQuery<Enterprise> tq = this.getEntityManager().createNamedQuery("enterprise.getEnterpriseNotByCityAndType", Enterprise.class);
+		tq.setParameter(parameter, cityName);
+		tq.setParameter("param2", enterpriseType.getId());
 		return tq.getResultList();
 	}
 

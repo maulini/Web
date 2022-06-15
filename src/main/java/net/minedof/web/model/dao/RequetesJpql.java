@@ -17,6 +17,10 @@ public final class RequetesJpql {
 
 	public static final String FIND_ENTERPRISE_NOT_BY_CITY = "SELECT e FROM Enterprise e WHERE e.address = (SELECT a.id FROM Address a WHERE a.city not like :param)";
 
+	public static final String FIND_ENTERPRISE_NOT_BY_CITY_TYPE = "SELECT e FROM Enterprise e WHERE e.address = (SELECT a.id FROM Address a WHERE a.city not like :param) AND e.enterpriseType = :param2";
+
+	public static final String FIND_ENTERPRISE_BY_CITY_TYPE = "SELECT e FROM Enterprise e WHERE e.address = (SELECT a.id FROM Address a WHERE a.city like :param) AND e.enterpriseType = :param2";
+
 	public static final String FIND_ACCOUNT_BY_ADDRESS = "SELECT a FROM Account a WHERE a.mail = :param";
 
 	private RequetesJpql() {

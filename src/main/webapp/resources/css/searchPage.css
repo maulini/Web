@@ -1,0 +1,20 @@
+.ui-dataview .ui-dataview-header {
+    border-bottom: 0 none;
+    display: none;
+}
+
+.accordion-custom
+{
+    border-top: 1px black;
+    text-align: right;
+}
+.hide
+{
+    display: none;
+    transition: 0.5s;
+}
+.show
+{
+    display: block;
+    transition: 0.5s;
+}

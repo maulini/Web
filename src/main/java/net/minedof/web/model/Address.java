@@ -3,6 +3,7 @@ package net.minedof.web.model;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import net.minedof.web.model.entity.AbstractEntity;
+import org.primefaces.model.map.LatLng;
 
 import javax.enterprise.context.Dependent;
 import javax.persistence.*;
@@ -13,7 +14,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper=true)
 
 //JPA
 @Entity
@@ -37,10 +37,32 @@ public class Address extends AbstractEntity implements Serializable {
     int cityZip;
 
     /**
+     * Adresse complète du lieu.
+     */
+    String completeAddress;
+
+    /**
+     * Latitude, Longitude de l'adresse.
+     */
+    @OneToOne(cascade = CascadeType.ALL)
+    Location lonLat;
+
+    /**
      * numéro de version.
      */
     @Version
     @Column(name = "optlock", columnDefinition = "integer NOT NULL DEFAULT 0")
     Long version = 0L;
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(address);
+        sb.append(", ");
+        sb.append(city);
+        sb.append(" ");
+        sb.append(cityZip);
+        sb.append(lonLat.toString());
+        return sb.toString();
+    }
 
 }

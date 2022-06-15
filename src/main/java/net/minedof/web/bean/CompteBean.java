@@ -38,20 +38,20 @@ public class CompteBean implements Serializable {
 			Account account = this.accountDao.getAccount(cookie.getValue());
 			if (account.getAccountType().equals("Client")) {
 				try {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("/Web/client");
+					FacesContext.getCurrentInstance().getExternalContext().redirect("/client");
 				} catch (IOException e) {
 					log.error("An error occure while trying to redirect.", e);
 				}
 			} else if (account.getAccountType().equals("Enterprise")) {
 				try {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("/Web/enterprise");
+					FacesContext.getCurrentInstance().getExternalContext().redirect("/enterprise");
 				} catch (IOException e) {
 					log.error("An error occure while trying to redirect.", e);
 				}
 			}
 		} else {
 			try {
-				FacesContext.getCurrentInstance().getExternalContext().redirect("/Web/login");
+				FacesContext.getCurrentInstance().getExternalContext().redirect("/login");
 			} catch (IOException e) {
 				log.error("An error occure while trying to redirect.", e);
 			}

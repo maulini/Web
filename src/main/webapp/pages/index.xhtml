@@ -19,11 +19,11 @@
                             <div class="ui-inputgroup">
                                 <span class="ui-input-icon-left">
                                     <i class="pi pi-search" />
-                                    <p:inputText placeholder="Nom de la prestation" value="#{indexBean.prestation}" />
+                                    <p:autoComplete placeholder="Nom de la prestation" id="acPresta" value="#{indexBean.prestation}" completeMethod="#{indexBean.completePrestation}" var="prestation" itemLabel="#{prestation.name}"
+                                                    itemValue="#{prestation}" converter="enterpriseTypeConverter" scrollHeight="250"/>
                                 </span>
-                                <p:autoComplete placeholder="Où (adresse, ville...)" id="acAddress" value="#{indexBean.city}" completeMethod="#{indexBean.complete}">
-                                    <p:ajax event="itemSelect" listener="#{indexBean.onSelected}" />
-                                </p:autoComplete>
+                                <p:autoComplete placeholder="Où (adresse, ville...)" id="acAddress" value="#{indexBean.city}" completeMethod="#{indexBean.complete}" var="address" itemLabel="#{address.completeAddress}"
+                                                itemValue="#{address}" converter="addressConverter" scrollHeight="250"/>
                                 <p:commandButton icon="pi pi-search" action="#{indexBean.search}" style="background: black;" />
                             </div>
                         </h:form>

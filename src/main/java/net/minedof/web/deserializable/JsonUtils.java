@@ -14,8 +14,16 @@ public final class JsonUtils {
         return get(json, "city");
     }
 
+    public static List<String> getCityCode(String json) {
+        return get(json, "postcode");
+    }
+
     public static List<String> getCityAddress(String json) {
         return get(json, "label");
+    }
+
+    public static List<String> getName(String json) {
+        return get(json, "name");
     }
 
     private static List<String> get(String json, String jsonStrElement) {
@@ -30,15 +38,20 @@ public final class JsonUtils {
         return lst;
     }
 
-    public static Location getLocation(String json) {
+    public static List<Location> getLocation(String json) {
+        List<Location> lst = new ArrayList<>();
         JsonElement jsonElement = JsonParser.parseString(json);
         JsonObject jsonObject = jsonElement.getAsJsonObject();
-        Location location = new Location();
         JsonArray jsonArray = jsonObject.getAsJsonArray("features").getAsJsonArray();
-        JsonArray jj = jsonArray.get(0).getAsJsonObject().getAsJsonObject("geometry").getAsJsonArray("coordinate");
-        location.setLat(jj.get(0).getAsJsonPrimitive().getAsDouble());
-        location.setLon(jj.get(1).getAsJsonPrimitive().getAsDouble());
-        return location;
+        for (int i = 0; i < jsonArray.size(); i++) {
+            Location location = new Location();
+            JsonArray jj = jsonArray.get(i).getAsJsonObject().getAsJsonObject("geometry").getAsJsonArray("coordinates");
+
+            location.setLat(jj.get(0).getAsJsonPrimitive().getAsDouble());
+            location.setLon(jj.get(1).getAsJsonPrimitive().getAsDouble());
+            lst.add(location);
+        }
+        return lst;
     }
 
 

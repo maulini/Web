@@ -97,13 +97,13 @@ public class LoginBean implements Serializable {
 			Account account = this.accountDao.getAccount(cookie.getValue());
 			if (account != null && account.getAccountType().equals("Client")) {
 				try {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("/Web/client");
+					FacesContext.getCurrentInstance().getExternalContext().redirect("/client");
 				} catch (IOException e) {
 					log.error("An error occure while trying to redirect.", e);
 				}
 			} else if (account != null && account.getAccountType().equals("Enterprise")) {
 				try {
-					FacesContext.getCurrentInstance().getExternalContext().redirect("/Web/enterprise");
+					FacesContext.getCurrentInstance().getExternalContext().redirect("/enterprise");
 				} catch (IOException e) {
 					log.error("An error occure while trying to redirect.", e);
 				}
@@ -124,13 +124,13 @@ public class LoginBean implements Serializable {
 				Account account = this.accountDao.getAccount(this.mail);
 				if (account.getAccountType().equals("Client")) {
 					try {
-						FacesContext.getCurrentInstance().getExternalContext().redirect("/Web/client");
+						FacesContext.getCurrentInstance().getExternalContext().redirect("/client");
 					} catch (IOException e) {
 						log.error("An error ocurre while trying to redirect", e);
 					}
 				} else {
 					try {
-						FacesContext.getCurrentInstance().getExternalContext().redirect("/Web/enterprise");
+						FacesContext.getCurrentInstance().getExternalContext().redirect("/enterprise");
 					} catch (IOException e) {
 						log.error("An error ocurre while trying to redirect", e);
 					}
@@ -282,7 +282,7 @@ public class LoginBean implements Serializable {
 					PrimeFaces.current().ajax().update("client:clientSaved");
 					FacesContext.getCurrentInstance().getExternalContext().addResponseCookie(ALREADY_CONNECTED, this.mailSing, null);
 					try {
-						FacesContext.getCurrentInstance().getExternalContext().redirect("/Web/client");
+						FacesContext.getCurrentInstance().getExternalContext().redirect("/client");
 					} catch (IOException e) {
 						log.error("An error ocurre while trying to redirect", e);
 					}
@@ -295,11 +295,11 @@ public class LoginBean implements Serializable {
 					this.addressDao.create(this.enterpriseAddress);
 					enterprise.setName(this.enterpriseName);
 					enterprise.setAddress(this.enterpriseAddress);
-					enterprise.setEnterpriseType(this.enterpriseType);
+					enterprise.setEnterpriseType(this.enterpriseType.getId());
 					this.enterpriseDao.update(enterprise);
 					FacesContext.getCurrentInstance().getExternalContext().addResponseCookie(ALREADY_CONNECTED, this.mailSing, null);
 					try {
-						FacesContext.getCurrentInstance().getExternalContext().redirect("/Web/enterprise");
+						FacesContext.getCurrentInstance().getExternalContext().redirect("/enterprise");
 					} catch (IOException e) {
 						log.error("An error ocurre while trying to redirect", e);
 					}
